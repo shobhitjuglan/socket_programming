@@ -1,3 +1,13 @@
+
+'''
+Problem Statement :
+
+Write a script using pwntools that connects to a port, waits for the word "Username:",
+enters "root", waits for "Password:", enters "root", then takes in 2 numbers, adds them together, and returns the solution. 
+'''
+
+
+
 ----------------------------------------------------------server.py-------------------------------------------------------- 
 
 import socket
