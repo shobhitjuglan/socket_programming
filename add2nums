@@ -1,0 +1,100 @@
+----------------------------------------------------------server.py-------------------------------------------------------- 
+
+import socket
+
+HOST = '10.0.3.15'
+PORT = 5555
+
+def target_communication():
+	while True:
+		target, ip = sock.accept()
+		print('[+] Target Connected From: '+str(ip))
+		
+		#print(f'Message from client is : {data}')
+		#target.send("Welcome you are connected bro".encode('utf-8'))
+		target.send("Username".encode('utf-8'))
+		username = target.recv(1024).decode('utf-8')
+		target.send("Password".encode('utf-8'))
+		password = target.recv(1024).decode('utf-8')
+		
+		if(username=="root" and password=="root"):
+			target.send("First Number".encode('utf-8'))
+			num1 = int(float(target.recv(1024).decode('utf-8')))
+			target.send("Second Number".encode('utf-8'))
+			num2 = int(float(target.recv(1024).decode('utf-8')))
+			sums = num1+num2
+			print(f"the sum is {sums}")
+			target.send(f"The sum is {sums}".encode('utf-8'))
+			
+		else:
+			print("Wrong username or password")
+
+		
+		print("Connection closed")
+	sock.close()
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.bind((HOST, PORT))
+
+print('[+] Listening for incoming connections')
+sock.listen(5) #5 connections are kept open if the server is busy
+
+target_communication()
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+-----------------------------------------------------client.py-----------------------------------------------------
+
+
+
+import socket
+
+HOST = '10.0.3.15'
+
+PORT = 5555
+
+
+
+
+
+
+
+
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((HOST, PORT))
+
+string1 = sock.recv(1024).decode('utf-8')
+print(string1)
+if(string1=="Username"):
+	sock.send("root".encode('utf-8'))
+	
+	string2 = sock.recv(1024).decode('utf-8')
+	print(string2)
+	if(string2=="Password"):
+		sock.send("root".encode('utf-8'))
+		
+		string3 = sock.recv(1024).decode('utf-8')
+		print(string3)
+		if(string3=="First Number"):
+			sock.send((bytes(str(9),'utf-8' )))
+			
+			string4 = sock.recv(1024).decode('utf-8')
+			print(string4)
+			if(string4=="Second Number"):
+				sock.send((bytes(str(10), 'utf-8')))
+
+else:
+	print("Wrong number parsed")
+	
+	
+print("----------Connection closed------------")
+
+sock.close()
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------------------------------
